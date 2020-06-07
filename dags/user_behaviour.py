@@ -17,13 +17,13 @@ import psycopg2
 # local
 unload_user_purchase ='./scripts/sql/filter_unload_user_purchase.sql'
 temp_filtered_user_purchase = '/temp/temp_filtered_user_purchase.csv'
-movie_review_local = '/data/movie_review/movie_review.csv'
-movie_clean_emr_steps = './dags/scripts/emr/clean_movie_review.json'
-movie_text_classification_script = './dags/scripts/spark/random_text_classification.py'
+# movie_review_local = '/data/movie_review/movie_review.csv'
+# movie_clean_emr_steps = './dags/scripts/emr/clean_movie_review.json'
+# movie_text_classification_script = './dags/scripts/spark/random_text_classification.py'
 
 # remote config
-BUCKET_NAME = '<your-s3-bucket>'
-EMR_ID = '<your-emr-id>'
+BUCKET_NAME = 'mat-de'
+# EMR_ID = '<your-emr-id>'
 temp_filtered_user_purchase_key= 'user_purchase/stage/{{ ds }}/temp_filtered_user_purchase.csv'
 movie_review_load = 'movie_review/load/movie.csv'
 movie_review_load_folder = 'movie_review/load/'
@@ -168,6 +168,7 @@ get_user_behaviour = PostgresOperator(
     postgres_conn_id='redshift'
 )
 
-pg_unload >> user_purchase_to_s3_stage >> remove_local_user_purchase_file >> user_purchase_to_rs_stage
-[movie_review_to_s3_stage, move_emr_script_to_s3] >> add_emr_steps >> clean_movie_review_data
-[user_purchase_to_rs_stage, clean_movie_review_data] >> get_user_behaviour >> end_of_data_pipeline
+pg_unload >> end_of_data_pipeline
+# user_purchase_to_s3_stage >> remove_local_user_purchase_file >> user_purchase_to_rs_stage
+# [movie_review_to_s3_stage, move_emr_script_to_s3] >> add_emr_steps >> clean_movie_review_data
+# [user_purchase_to_rs_stage, clean_movie_review_data] >> get_user_behaviour >> end_of_data_pipeline
