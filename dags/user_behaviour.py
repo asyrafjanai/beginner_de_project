@@ -81,15 +81,15 @@ pg_unload = PostgresOperator(
     wait_for_downstream=True
 )
 
-# user_purchase_to_s3_stage = PythonOperator(
-#     dag=dag,
-#     task_id='user_purchase_to_s3_stage',
-#     python_callable=_local_to_s3,
-#     op_kwargs={
-#         'filename': temp_filtered_user_purchase,
-#         'key': temp_filtered_user_purchase_key,
-#     },
-# )
+user_purchase_to_s3_stage = PythonOperator(
+    dag=dag,
+    task_id='user_purchase_to_s3_stage',
+    python_callable=_local_to_s3,
+    op_kwargs={
+        'filename': temp_filtered_user_purchase,
+        'key': temp_filtered_user_purchase_key,
+    },
+)
 
 # remove_local_user_purchase_file = PythonOperator(
 #     dag=dag,
@@ -168,7 +168,7 @@ pg_unload = PostgresOperator(
 #     postgres_conn_id='redshift'
 # )
 
-pg_unload >> end_of_data_pipeline
-# user_purchase_to_s3_stage >> remove_local_user_purchase_file >> user_purchase_to_rs_stage
+pg_unload >> user_purchase_to_s3_stage >> end_of_data_pipeline
+# remove_local_user_purchase_file >> user_purchase_to_rs_stage
 # [movie_review_to_s3_stage, move_emr_script_to_s3] >> add_emr_steps >> clean_movie_review_data
 # [user_purchase_to_rs_stage, clean_movie_review_data] >> get_user_behaviour >> end_of_data_pipeline
