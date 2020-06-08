@@ -16,7 +16,7 @@ import psycopg2
 # config
 # local
 unload_user_purchase ='./scripts/sql/filter_unload_user_purchase.sql'
-temp_filtered_user_purchase = '/temp/temp_filtered_user_purchase.csv'
+temp_filtered_user_purchase = './data/temp/temp_filtered_user_purchase.csv'
 movie_review_local = '/data/movie_review/movie_review.csv'
 movie_clean_emr_steps = './dags/scripts/emr/clean_movie_review.json'
 movie_text_classification_script = './dags/scripts/spark/random_text_classification.py'
