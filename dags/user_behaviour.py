@@ -81,24 +81,24 @@ pg_unload = PostgresOperator(
     wait_for_downstream=True
 )
 
-user_purchase_to_s3_stage = PythonOperator(
-    dag=dag,
-    task_id='user_purchase_to_s3_stage',
-    python_callable=_local_to_s3,
-    op_kwargs={
-        'filename': temp_filtered_user_purchase,
-        'key': temp_filtered_user_purchase_key,
-    },
-)
+# user_purchase_to_s3_stage = PythonOperator(
+#     dag=dag,
+#     task_id='user_purchase_to_s3_stage',
+#     python_callable=_local_to_s3,
+#     op_kwargs={
+#         'filename': temp_filtered_user_purchase,
+#         'key': temp_filtered_user_purchase_key,
+#     },
+# )
 
-remove_local_user_purchase_file = PythonOperator(
-    dag=dag,
-    task_id='remove_local_user_purchase_file',
-    python_callable=remove_local_file,
-    op_kwargs={
-        'filelocation': temp_filtered_user_purchase,
-    },
-)
+# remove_local_user_purchase_file = PythonOperator(
+#     dag=dag,
+#     task_id='remove_local_user_purchase_file',
+#     python_callable=remove_local_file,
+#     op_kwargs={
+#         'filelocation': temp_filtered_user_purchase,
+#     },
+# )
 
 # movie_review_to_s3_stage = PythonOperator(
 #     dag=dag,
